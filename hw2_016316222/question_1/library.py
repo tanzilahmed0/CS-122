@@ -1,12 +1,13 @@
 from .utils import log_operation, filter_by_author, book_generator
 
-@log_operation
+@log_operation  
 def add_book(library, title, author): 
     library.append({'title': title, 'author': author})
     print(f"Added book: {title} by {author}")
 
-@log_operation
+@log_operation 
 def remove_book(library, title):
+    # Use enumerate to safely remove during iteration
     for i, book in enumerate(library):
         if book['title'] == title: 
             library.pop(i)
