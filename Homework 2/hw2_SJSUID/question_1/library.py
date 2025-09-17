@@ -6,14 +6,11 @@ def add_book(library, title, author):
 
 @log_operation
 def remove_book(library, title):
-    found = False
-    for book in library:
+    for i, book in enumerate(library):
         if book['title'] == title: 
-            library.remove(book)
-            found = True
-            break
-    if found == False: 
-        print(f"Error: Book '{title}' not found.")
+            library.pop(i)
+            return
+    print(f"Error: Book '{title}' not found.")
 
 def list_books(library):
     if not library:
