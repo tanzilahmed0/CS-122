@@ -6,8 +6,8 @@ class InsufficientFundsError(Exception):
         self.balance = balance
 
 class InvalidAmountError(Exception):
-    def __init__(self, message, error_code, amount = None): 
-        suepr().__init__(message)
+    def __init__(self, message, error_code, amount=None): 
+        super().__init__(message)
         self.message = message 
         self.error_code = error_code
         self.amount = amount
