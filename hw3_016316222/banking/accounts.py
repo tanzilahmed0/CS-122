@@ -8,7 +8,7 @@ class BankAccount:
 
     def deposit(self, amount): 
         if amount <= 0: 
-            raise InvalidAmountError("Deposit amount must be positive")
+            raise InvalidAmountError("Deposit amount must be positive", "INVALID_AMOUNT", amount)
         self.balance += amount
         
     def withdraw(self, amount): 
@@ -25,9 +25,9 @@ class SavingAccount(BankAccount):
 
     def withdraw(self, amount): 
         if amount <= 0:
-            raise InvalidAmountError("Withdrawal amount must be positive") 
+            raise InvalidAmountError("Withdrawal amount must be positive", "INVALID_AMOUNT", amount) 
         if amount + self.withdrawal_fee > self.balance:
-            raise InsufficientFundsError("Insufficient funds for withdrawal and fee")
+            raise InsufficientFundsError("Insufficient funds for withdrawal and fee", "INSUFFICIENT_FUNDS", self.balance)
         self.balance -= (amount + self.withdrawal_fee)
 
 
@@ -38,7 +38,7 @@ class CheckingAccount(BankAccount):
 
     def withdraw(self, amount): 
         if amount <= 0:
-            raise InvalidAmountError("Withdrawal amount must be positive") 
+            raise InvalidAmountError("Withdrawal amount must be positive", "INVALID_AMOUNT", amount) 
         if amount + self.withdrawal_fee > self.balance: 
-            raise InsufficientFundsError("Insufficient funds for withdrawal and fee")
+            raise InsufficientFundsError("Insufficient funds for withdrawal and fee", "INSUFFICIENT_FUNDS", self.balance)
         self.balance -= (amount + self.withdrawal_fee)

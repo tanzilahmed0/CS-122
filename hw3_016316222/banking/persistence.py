@@ -1,19 +1,20 @@
 import shelve 
+from .accounts import SavingAccount, CheckingAccount
 
 class Bank: 
-    def __init(self, db_path): 
+    def __init__(self, db_path): 
         self.db_path = db_path 
         self.accounts = {}
 
     def create_account(self, account_type, owner_name, initial_balance =0):
-        if self.owner_name in self.accounts:
+        if owner_name in self.accounts:
             print("Error: Account already exists") 
             return False 
         else: 
             if account_type == "saving":
                 self.accounts[owner_name] = SavingAccount(owner_name, initial_balance)
             elif account_type == "checking":
-                self.accounts[owner_name] = CheckingAccount(owner_name, initial balance)
+                self.accounts[owner_name] = CheckingAccount(owner_name, initial_balance)
             else: 
                 print("Error: Account type not found")
                 return False
@@ -31,5 +32,5 @@ class Bank:
 
     def load_data(self): 
         with shelve.open(self.db_path) as db: 
-            self.accounts =
+            self.accounts = db.get("accounts", {})
 
