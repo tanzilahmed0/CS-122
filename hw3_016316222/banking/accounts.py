@@ -26,6 +26,18 @@ class SavingAccount(BankAccount):
         if amount <= 0:
             raise InvalidAmountError("Invalid amount", amount) 
         if amount + self.fee > self.balance:
-            raise InSufficientFundsError("Insufficient funds", amount)
+            raise InsufficientFundsError("Insufficient funds", amount)
         self.balance -= amount + self.fee
 
+class CheckingAccount(BankAccount): 
+    def __init__(self, owner_name, initial_balance = 0): 
+        super().__init__(owner_name, initial_balance) 
+
+    fee = 1.0 
+
+    def withdraw(self, amount): 
+        if amount <= 0:
+            raise InvalidAmount("Invalid amount", amount) 
+        if amount + self.fee > self.balance: 
+            raise InsufficientFundsError("Insufficient funds", amount)
+        self.balance =- amount + self.fee
