@@ -5,6 +5,8 @@ from my_package.validator import is_valid_student_id
 class CourseFullError(Exception): 
     pass 
 
+
+
 class Student: 
     def __init__(self, student_id, name): 
         if not is_valid_student_id(student_id): 
@@ -26,6 +28,14 @@ class Course:
         else: 
             self.students.append(student)
 
+    def log_call(func): 
+        def wrapper(*args, **kwargs): 
+            print(f"[LOG] Calling function: {func.__name__}")
+
+            return func(*args, **kwargs) 
+
+        return wrapper
+
     @log_call
     def get_student_names(self):
         student_list = []
@@ -35,14 +45,10 @@ class Course:
 
         return student_list
 
+ 
 
-def log_call(func): 
-    def wrapper(*args, **kwargs): 
-        print(f"[LOG] Calling function {func.__name__}")
 
-        return func(*args, **kwargs) 
-
-    return wrapper
+    
 
 
 
