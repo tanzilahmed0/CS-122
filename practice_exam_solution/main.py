@@ -30,7 +30,7 @@ class Course:
         student_list = []
 
         for i in self.students: 
-            student_list.append(i) 
+            student_list.append(i.name) 
 
         return student_list
 
