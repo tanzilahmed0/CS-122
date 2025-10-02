@@ -1,5 +1,6 @@
 # Your solutions for Problems 1 and 2 go here.
-import 
+from my_package.validator import is_valid_student_id
+
 # Your solutions for Problems 1 and 2 go here.
 class CourseFullError(Exception): 
     pass 
