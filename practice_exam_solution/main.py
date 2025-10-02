@@ -28,9 +28,9 @@ class Course:
 
 def log_call(func): 
     def wrapper(*args, **kwargs): 
-        print(f"[LOG] Calling function {func}")
+        print(f"[LOG] Calling function {func.__name__}")
 
-        func(*args, **kwargs) 
+        return func(*args, **kwargs) 
 
     return wrapper
 
