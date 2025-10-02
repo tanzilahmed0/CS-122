@@ -25,6 +25,15 @@ class Course:
         else: 
             self.students.append(student)
 
+    @log_call
+    def get_student_names(self):
+        student_list = []
+
+        for i in self.students: 
+            student_list.append(i) 
+
+        return student_list
+
 
 def log_call(func): 
     def wrapper(*args, **kwargs): 
@@ -33,4 +42,6 @@ def log_call(func):
         return func(*args, **kwargs) 
 
     return wrapper
+
+
 
