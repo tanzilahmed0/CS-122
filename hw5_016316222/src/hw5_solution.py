@@ -9,7 +9,8 @@ import seaborn as sns
 import numpy as np
 
 df = pd.read_csv('../data/accident_100k.csv')
-df = df[df['State'].isin(['CA', 'FL', 'TX', 'NY'])]
+states = ['CA', 'FL', 'TX', 'NY']
+df = df[df['State'].isin(states)]
 df['Date'] = pd.to_datetime(df['Weather_Timestamp'], errors='coerce')
 df = df.dropna(subset=['Date'])
 
@@ -17,7 +18,7 @@ df = df.dropna(subset=['Date'])
 daily_counts = df.groupby(['State', 'Date']).size().reset_index(name='Accident_Count')
 
 plt.figure(figsize=(14, 6))
-for state in ['CA', 'FL', 'TX', 'NY']:
+for state in states:
     state_data = daily_counts[daily_counts['State'] == state]
     plt.plot(state_data['Date'], state_data['Accident_Count'], label=state)
 
@@ -54,7 +55,6 @@ plt.close()
 task3_df = df[df['Weather_Condition'].isin(['Fair', 'Mostly Cloudy', 'Cloudy', 'Clear'])]
 
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-states = ['CA', 'FL', 'TX', 'NY']
 
 for idx, state in enumerate(states):
     row = idx // 2
@@ -82,7 +82,6 @@ plt.close()
 
 # Task 4
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-states = ['CA', 'FL', 'TX', 'NY']
 
 max_freq = 0
 for state in states:
