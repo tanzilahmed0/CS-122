@@ -126,8 +126,6 @@ def main():
     plt.savefig("avg_sentiment_per_user.png")
     plt.close()
 
-    print("\nAll plots saved successfully.")
-
 
 if __name__ == "__main__":
     main()
