@@ -11,7 +11,7 @@ import numpy as np
 df = pd.read_csv('../data/accident_100k.csv')
 states = ['CA', 'FL', 'TX', 'NY']
 df = df[df['State'].isin(states)]
-df['Date'] = pd.to_datetime(df['Weather_Timestamp'], errors='coerce')
+df['Date'] = pd.to_datetime(df['Weather_Timestamp'])
 df = df.dropna(subset=['Date'])
 
 # Task 1
@@ -28,9 +28,16 @@ plt.title('Daily Accident Counts by State (CA, FL, TX, NY)')
 plt.legend(title='State')
 plt.grid(True, alpha=0.3)
 plt.tight_layout()
-plt.savefig('../plots/task1_daily_accidents_by_state.png', dpi=300, bbox_inches='tight')
+plt.savefig('../plots/task1_timeseries.png', dpi=300, bbox_inches='tight')
 plt.show()
 plt.close()
+'''
+ Peak periods: Late 2019 from around August to Sep shows highest peaks, especially CA reaching ~60 daily accidents, 
+ while Florida and Texas show moderate peaks (10-15) and NY remains consistently low (<5). 
+ Temporal patterns: CA had extreme spikes in 2019, FL/TX show similar moderate patterns, 
+ and NY is consistently low hroughout.
+'''
+
 
 # Task 2
 df['DayOfWeek'] = df['Date'].dt.day_name()
@@ -47,10 +54,15 @@ plt.title('Accident Density by Day-of-Week and State')
 plt.xlabel('State')
 plt.ylabel('Day of Week')
 plt.tight_layout()
-plt.savefig('../plots/task2_heatmap_dayofweek_state.png', dpi=300, bbox_inches='tight')
+plt.savefig('../plots/task2_heatmap.png', dpi=300, bbox_inches='tight')
 plt.show()
 plt.close()
 
+'''
+# Weekday/weekend contrast: CA, NY, and TX show the strongest contrast with weekday proportions being
+# much higher than weekends. 
+# Unusual patterns: CA's Monday is notably lower than mid-week peak.
+'''
 # Task 3
 task3_df = df[df['Weather_Condition'].isin(['Fair', 'Mostly Cloudy', 'Cloudy', 'Clear'])]
 
@@ -76,9 +88,15 @@ for idx, state in enumerate(states):
         ax.legend()
 
 plt.tight_layout()
-plt.savefig('../plots/task3_severity_weather.png', dpi=300, bbox_inches='tight')
+plt.savefig('../plots/task3_weather.png', dpi=300, bbox_inches='tight')
 plt.show()
 plt.close()
+
+'''
+Florida stands out with the highest average accident severity, around 2.75 under Fair weather. It also 
+shows the widest variation in severity, especially for Fair and Mostly Cloudy conditions. In contrast, 
+California shows a much flatter distribution.
+'''
 
 # Task 4
 fig, axes = plt.subplots(2, 2, figsize=(14, 10))
@@ -104,8 +122,39 @@ for idx, state in enumerate(states):
     ax.set_ylim(0, max_freq * 1.1)
 
 plt.tight_layout()
-plt.savefig('../plots/task4_severity_histogram.png', dpi=300, bbox_inches='tight')
+plt.savefig('../plots/task4_histograms.png', dpi=300, bbox_inches='tight')
 plt.show()
 plt.close()
+
+'''
+California, Florida, and New York are skewed toward minor accidents (Severity 2.0). Texas, on the other hand,
+has a bimodal distribution, accidents are split between Severity 2.0 and 3.0. Across all states, there’s 
+a strong spike at Severity 2.0 and a notable gap at Severity 2.5. Texas 
+is unique for its second spike at 3.0.
+'''
+
 # Task 5
+# Question: Does lower visibility lead to higher accident severity?
+task5_df = df[['Visibility(mi)', 'Severity']].dropna()
+
+plt.figure(figsize=(10, 6))
+plt.scatter(task5_df['Visibility(mi)'], task5_df['Severity'], alpha=0.3, s=10)
+plt.xlabel('Visibility (miles)')
+plt.ylabel('Severity')
+plt.title('Task 5: Does Lower Visibility Lead to Higher Accident Severity?')
+plt.grid(True, alpha=0.3)
+
+z = np.polyfit(task5_df['Visibility(mi)'], task5_df['Severity'], 1)
+p = np.poly1d(z)
+plt.plot(task5_df['Visibility(mi)'].sort_values(), p(task5_df['Visibility(mi)'].sort_values()), 
+         "r--", linewidth=2, label='Trend Line')
+
+plt.legend()
+plt.tight_layout()
+plt.savefig('../plots/task5_exploration.png', dpi=300, bbox_inches='tight')
+plt.show()
+plt.close()
+
+# Analysis: The scatter plot shows a very weak inverse relationship between visibility and accident severity, 
+#
 
